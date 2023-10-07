@@ -5,9 +5,11 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
-require("./app/config/db-setup/db.config");
+require("./app/db-setup/db.config");
 
 const authRouter = require("./app/routes/auth.routes");
+const articleRouter = require('./app/routes/article.routes');
+const globalErrorHandler = require('./app/controllers/errorController');
 
 const app = express();
 
@@ -21,6 +23,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/api/v1/company", authRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/articles", articleRouter);
+
+app.use(globalErrorHandler);
 
 module.exports = app;
